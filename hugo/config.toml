@@ -1,7 +1,7 @@
 baseURL = "https://anilzen.github.io/adaptive_kalman/"
 title = "Adaptive Kalman"
 theme = "hugo-geekdoc"
-# publishDir = "../calculations/docs/" # This is where the github directory is.
+publishDir = "../docs/"
 
 pluralizeListTitles = false
 
