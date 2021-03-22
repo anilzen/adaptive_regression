@@ -1,7 +1,6 @@
 baseURL = "https://anilzen.github.io/adaptive_kalman/"
 title = "Adaptive Kalman"
 theme = "hugo-geekdoc"
-#publishDir = "../docs/"
 
 pluralizeListTitles = false
 
@@ -26,4 +25,4 @@ enableGitInfo = true # more
   geekdocRepo = "https://github.com/anilzen/adaptive_kalman/"
   geekdocEditPath = "edit/main/hugo/content/"
   geekdocSearchShowParent = true
-#   geekdocLogo = "logo2.png"
+  geekdocLogo = "logo.png"
