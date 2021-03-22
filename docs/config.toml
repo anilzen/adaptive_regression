@@ -1,7 +1,6 @@
 baseURL = "https://anilzen.github.io/adaptive_kalman/"
 title = "Adaptive Kalman"
 theme = "hugo-geekdoc"
-publishDir = "../docs/"
 
 pluralizeListTitles = false
 
