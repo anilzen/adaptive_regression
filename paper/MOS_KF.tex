@@ -45,7 +45,7 @@ We report on a simple framework for performing Observing Systems Simulation Expe
 
 \subsection{The Lorenz-96 model}
 The Lorenz-96 model is a chaotic, continuous-in-time, discrete-in-space, dynamical system that was proposed by Lorenz in 1996 as a toy model for weather dynamics \cite{Lorenz96}. It is a system of ordinary differential equations (ODEs) for variables $\{x_j\}$ with external forcing $F$. 
-\be \label{eq:model} \frac{dx_j}{dt} = ( x_{j+1} - x_{j-2} ) x_{j-1} - x_j + F, \ee
+\be \label{eq:model} \frac{dx_j}{dt} = ( x_{j+1} - x_{j-2} ) x_{j-1} - x_j + F. \ee
 The variables may represent a meteorological observable observed at equidistant sites around a latitude circle \cite{LorenzEmanuel98}. The quadratic advective terms compete with the linear dissipative terms and the outcome of this competition as the asymptotic behavior of the solution is determined by the external forcing term. For small values of the forcing, linearity dominates and the solution is dissipative. For large values of the forcing, the nonlinearity dominates and the solution blows up. In an intermediate range of the forcing, the system behaves chaotically. This behavior makes the Lorenz-96 model a popular testbed for new ideas in atmospheric sciences \cite{LorenzEmanuel98,Boffetta02,Ott04,Pazo08, Karimi10, Majda17}. Remarkably, the chaotic behavior of the solution defined as the positivity of the top Lyapunov exponent has only recently been proven \cite{Bedrossian20}. 
 
 \subsubsection{Simulation of the Lorenz model}
@@ -181,7 +181,7 @@ e_n &= y_n^o - y_n^f, \\
 
 \bibitem{Glahn72} Glahn, H.R. and Lowry, D.A., 1972. The use of model output statistics (MOS) in objective weather forecasting. {\em Journal of Applied Meteorology and Climatology}, 11(8), pp.1203-1211.
 \bibitem{Carter89} Carter, G.M., Dallavalle, J.P. and Glahn, H.R., 1989. Statistical forecasts based on the National Meteorological Center's numerical weather prediction system. Weather and Forecasting, 4(3), pp.401-412.
-\bibitem{Lorenz96} Lorenz, E.N., 1996, September. Predictability: A problem partly solved. {\em ECMWF Proc. Seminar on predictability} (Vol. 1, No. 1).
+\bibitem{Lorenz96} Lorenz, E.N., 1996. Predictability: A problem partly solved. {\em ECMWF Proc. Seminar on predictability} (Vol. 1, No. 1).
 \bibitem{LorenzEmanuel98} Lorenz, E.N. and Emanuel, K.A., 1998. Optimal Sites for Supplementary Weather Observations: Simulation with a Small Model, {\em J. Atmos. Sci.} 45, 399-414.
 \bibitem{Boffetta02} Boffetta, G., Cencini, M., Falcioni, M. and Vulpiani, A., 2002. Predictability: a way to characterize complexity. {\em Physics Reports}, 356(6), pp.367-474.
 \bibitem{Ott04} Ott, E., Hunt, B.R., Szunyogh, I., Zimin, A.V., Kostelich, E.J., Corazza, M., Kalnay, E., Patil, D.J. and Yorke, J.A., 2004. A local ensemble Kalman filter for atmospheric data assimilation. {\em Tellus A: Dynamic Meteorology and Oceanography}, 56(5), pp.415-428.

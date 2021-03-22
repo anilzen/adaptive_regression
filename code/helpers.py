@@ -8,12 +8,12 @@ class Lorenz:
     Implements perturbed Lorenz model.
     """
 
-    def __init__(self, days, N=40, dt=0.05, F=8., bias=0., noise=0., pert_type="None"):
-        self.days = days
+    def __init__(self, N=40, F=8., days, dt=0.05, bias=0., noise=0., pert_type="None"):
         self.N = N
-        self.dt = dt
-        self.nt = 4*self.days
         self.F = F
+        self.days = days
+        self.dt = dt
+        self.nt = 4*0.05/dt*self.days
         self.noise = noise
         self.bias = bias
         self.gridbias = np.random.normal(0., noise, self.N)
