@@ -1,0 +1,29 @@
+baseURL = "https://anilzen.github.io/adaptive_kalman/"
+title = "Adaptive Kalman"
+theme = "hugo-geekdoc"
+publishDir = "../docs/"
+
+pluralizeListTitles = false
+
+# Geekdoc required configuration
+pygmentsUseClasses = true
+pygmentsCodeFences = true
+disablePathToLower = true
+enableGitInfo = true # more
+
+# Needed for mermaid shortcodes
+[markup]
+  [markup.goldmark.renderer]
+    # Needed for mermaid shortcode
+    unsafe = true
+  [markup.tableOfContents]
+    startLevel = 1
+    endLevel = 9
+
+
+[params]
+  geekdocToC = 3
+  geekdocRepo = "https://github.com/anilzen/adaptive_kalman/"
+  geekdocEditPath = "edit/main/hugo/content/"
+  geekdocSearchShowParent = true
+#   geekdocLogo = "logo2.png"
