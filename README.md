@@ -1,4 +1,4 @@
-# Model Output Statistics and Adaptive Regression for the Lorenz-96 model
+# Model Output Statistics and Adaptive Regression
 
 This repository contains Python code, Jupyter notebook, LaTeX source, and documentation for comparing Model Output Statistics (MOS) and Adaptive Regression (AR) for the Lorenz-96 model. 
 
