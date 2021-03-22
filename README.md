@@ -2,7 +2,7 @@
 
 This repository contains Python code, Jupyter notebook, LaTeX source, and documentation for comparing Model Output Statistics (MOS) and Adaptive Regression (AR) for the Lorenz-96 model. 
 
-The Jupyter notebook sets up an Observing Systems Simulation Experiment (OSSE) where Nature is given by the Lorenz-96 system. Biased versions of this system are used as models with which forecasts are made. Bias-correction is performed both by MOS and AR, based on an idea by Eugenia Kalnay using Kalman filters. 
+The Jupyter notebook sets up an Observing Systems Simulation Experiment (OSSE) where Nature is given by the Lorenz-96 system. Biased versions of this system are used as models with which forecasts are made. Bias-correction is performed both by MOS and AR, based on an idea by [Eugenia Kalnay](https://www2.atmos.umd.edu/~ekalnay/) using Kalman filters. 
 
 Bias can be constant or stochastic. It can vary in space across the grid with a normal distribution or vary in time mimicking seasonal patterns. One can also use blended models by combining forecasts using different types of biases (each specific bias choice with a type and amplitude correponds to a mode). 
 
