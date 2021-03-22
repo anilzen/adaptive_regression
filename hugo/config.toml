@@ -1,0 +1,55 @@
+baseURL = "https://anilzen.github.io/adaptive_kalman/"
+title = "Adaptive Kalman"
+theme = "hugo-geekdoc"
+# publishDir = "../calculations/docs/" # This is where the github directory is.
+
+pluralizeListTitles = false
+
+# Geekdoc required configuration
+pygmentsUseClasses = true
+pygmentsCodeFences = true
+disablePathToLower = true
+enableGitInfo = true # more
+
+# Needed for mermaid shortcodes
+[markup]
+  [markup.goldmark.renderer]
+    # Needed for mermaid shortcode
+    unsafe = true
+  [markup.tableOfContents]
+    startLevel = 1
+    endLevel = 9
+
+
+[params]
+  # (Optional, default 6) Set how many table of contents levels to be showed on page.
+  # Use false to hide ToC, note that 0 will default to 6 (https://gohugo.io/functions/default/)
+  # You can also specify this parameter per page in front matter.
+  geekdocToC = 3
+
+  # (Optional, default static/brand.svg) Set the path to a logo for the Geekdoc
+  # relative to your 'static/' folder.
+#   geekdocLogo = "keep-kalm-an-filter-7.png"
+#   geekdocLogo = "logo2.png"
+
+  # (Optional, default true) Show page navigation links at the bottom of each
+  # docs page (bundle menu only).
+#   geekdocNextPrev = false
+
+  # (Optional, default true) Show a breadcrumb navigation bar at the top of each docs page.
+  # You can also specify this parameter per page in front matter.
+#   geekdocBreadcrumb = false
+
+  # (Optional, default none) Set source repository location. Used for 'Edit this page' links.
+  # You can also specify this parameter per page in front matter.
+#   geekdocRepo = "https://github.com/anilzen/adaptive_kalman/docs/"
+
+  # (Optional, default none) Enable 'Edit this page' links. Requires 'GeekdocRepo' param
+  # and path must point to 'content' directory of repo.
+  # You can also specify this parameter per page in front matter.
+#   geekdocEditPath = "edit/master/exampleSite/content"
+
+  # (Optional, default false) Display search results with the parent folder as prefix. This
+  # option allows you to distinguish between files with the same name in different folders.
+  # NOTE: This parameter only applies when 'geekdocSearch = true'.
+  geekdocSearchShowParent = true
