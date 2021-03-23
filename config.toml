@@ -1,5 +1,5 @@
-baseURL = "https://anilzen.github.io/adaptive_kalman/"
-title = "Adaptive Kalman"
+baseURL = "https://anilzen.github.io/adaptive_regression/"
+title = "Adaptive Regression"
 theme = "hugo-geekdoc"
 
 pluralizeListTitles = false
@@ -8,21 +8,11 @@ pluralizeListTitles = false
 pygmentsUseClasses = true
 pygmentsCodeFences = true
 disablePathToLower = true
-enableGitInfo = true # more
-
-# Needed for mermaid shortcodes
-[markup]
-  [markup.goldmark.renderer]
-    # Needed for mermaid shortcode
-    unsafe = true
-  [markup.tableOfContents]
-    startLevel = 1
-    endLevel = 9
-
+enableGitInfo = false
 
 [params]
   geekdocToC = 3
-  geekdocRepo = "https://github.com/anilzen/adaptive_kalman/"
-  geekdocEditPath = "edit/main/hugo/content/"
+  geekdocRepo = "https://github.com/anilzen/adaptive_regression/"
+  geekdocEditPath = "edit/docs/content/"
   geekdocSearchShowParent = true
   geekdocLogo = "logo.png"
