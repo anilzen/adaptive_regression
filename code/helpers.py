@@ -5,81 +5,67 @@ import numpy as np
 
 class Lorenz:
     """
-    Implements perturbed Lorenz model.
+    Implements Lorenz model.
+    Forcing is implemented as a function of time
     """
 
-    def __init__(self, N=40, F=8., days, dt=0.05, bias=0., noise=0., pert_type="None"):
+    def __init__(self, N=40, dt=0.05, forcing=lambda t: 8.0*np.ones(40)):
         self.N = N
-        self.F = F
-        self.days = days
         self.dt = dt
-        self.nt = 4*0.05/dt*self.days
-        self.noise = noise
-        self.bias = bias
-        self.gridbias = np.random.normal(0., noise, self.N)
-        self.pert_type = pert_type
-        self.pert = np.zeros(self.N)
-        self.sol = np.zeros((self.nt+1, self.N))
+        self.forcing = forcing
 
     # Fourth order Runge-Kutta integrator for method of lines
     def rk4(self, cur):
         dt = self.dt
+        t = self.t
         # Runge-Kutta RK4
-        k1 = dt * self.rhs(cur)
-        k2 = dt * self.rhs(cur+0.5*k1)
-        k3 = dt * self.rhs(cur+0.5*k2)
-        k4 = dt * self.rhs(cur+k3)
+        k1 = dt * self.rhs(cur, t)
+        k2 = dt * self.rhs(cur+0.5*k1, t+0.5*dt)
+        k3 = dt * self.rhs(cur+0.5*k2, t+0.5*dt)
+        k4 = dt * self.rhs(cur+k3, t+dt)
         return cur+(k1+2.*(k2+k3)+k4)/6.
 
-    # Right hand side for Lorenz 40 model
-    def rhs(self, x):
+    # Right hand side for Lorenz 96 model
+    def rhs(self, x, t):
+        forcing = self.forcing(t)
         dotx = np.zeros(self.N)
         # Boundary equations (periodic boundary conditions)
-        dotx[0] = (x[1]-x[-2])*x[-1] - x[0] + self.F + self.pert[0]
-        dotx[1] = (x[2]-x[-1])*x[0] - x[1] + self.F + self.pert[1]
-        dotx[-1] = (x[0]-x[-3])*x[-2] - x[-1] + self.F + self.pert[2]
+        dotx[0] = (x[1]-x[-2])*x[-1] - x[0] + forcing[0]
+        dotx[1] = (x[2]-x[-1])*x[0] - x[1] + forcing[1]
+        dotx[-1] = (x[0]-x[-3])*x[-2] - x[-1] + forcing[2]
         # Interior equations
-        dotx[2:-1] = (x[3:]-x[0:-3])*x[1:-2] - x[2:-1] + self.F + \
-            + self.pert[2:-1]
+        dotx[2:-1] = (x[3:]-x[0:-3])*x[1:-2] - x[2:-1] + forcing[2:-1]
         return dotx
 
-    def update_perturbation(self):
-        if self.pert_type == "None":
-            pass
-        elif self.pert_type == "Bias":
-            self.pert = self.bias*np.ones(self.N)
-        elif self.pert_type == "Noise":
-            self.pert = np.random.normal(0., self.noise, self.N)
-        elif self.pert_type == "GridBias":
-            self.pert = self.gridbias
-        elif self.pert_type == "TimeBias":
-            print("TimeBias not yet implemented!")
-
-    def solve(self, init_data):
+    # Evolution of the model
+    def solve(self, days, init_data):
         if len(init_data) != self.N:
             print("STOP! Inconsistent data!")
+        self.t = 0
+        self.nt = int(4*0.05/self.dt*days)
+        self.sol = np.zeros((self.nt+1, self.N))
         self.sol[0] = init_data
         for i in range(1, self.nt+1):
-            self.update_perturbation()
             self.sol[i] = self.rk4(self.sol[i-1])
+            self.t += self.dt
 
+    # Animation function to help visualize the solution
     def animate(self):
         fig = plt.figure()
         ax = plt.axes(xlim=(0, self.N), ylim=(self.sol.min(), self.sol.max()))
         line, = ax.plot(np.arange(self.N), self.sol[0], color='k', linewidth=1, marker='o', markersize=2)
         plt.xlabel('j')
         plt.ylabel('x')
-        plt.legend(["Lorenz"])  # loc=3, frameon=False)
+        plt.legend(["Lorenz"], loc="upper left")
 
         def animate(i):
             line.set_ydata(self.sol[i])
         # call the animator.  blit=True means only re-draw the parts that have changed.
-        return animation.FuncAnimation(fig, animate, frames=self.nt, interval=100, blit=False)
+        return animation.FuncAnimation(fig, animate, frames=self.nt, interval=100, blit=True)
 
 
 class Forecast(Lorenz):
 
-    # Initialize forecast
     def __init__(self, total_days, forecast_days, Truth, stations, pert_type, bias=0., noise=0.):
         Lorenz.__init__(self, days=forecast_days, noise=noise, bias=bias, pert_type=pert_type)
         if Truth.shape[0]-4*forecast_days-1 != 4*total_days:

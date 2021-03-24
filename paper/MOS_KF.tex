@@ -44,20 +44,27 @@ We report on a simple framework for performing Observing Systems Simulation Expe
 \section{OSSE}
 
 \subsection{The Lorenz-96 model}
-The Lorenz-96 model is a chaotic, continuous-in-time, discrete-in-space, dynamical system that was proposed by Lorenz in 1996 as a toy model for weather dynamics \cite{Lorenz96}. It is a system of ordinary differential equations (ODEs) for variables $\{x_j\}$ with external forcing $F$. 
-\be \label{eq:model} \frac{dx_j}{dt} = ( x_{j+1} - x_{j-2} ) x_{j-1} - x_j + F. \ee
+The Lorenz-96 model is a chaotic, continuous-in-time, discrete-in-space, dynamical system that was proposed by Lorenz in 1996 as a toy model for weather dynamics \cite{Lorenz96}. It is a system of ordinary differential equations (ODEs) for variables $\{x_j\}$ with external forcing
+\be \label{eq:model} \frac{dx_j}{dt} = ( x_{j+1} - x_{j-2} ) x_{j-1} - x_j + F(t). \ee
 The variables may represent a meteorological observable observed at equidistant sites around a latitude circle \cite{LorenzEmanuel98}. The quadratic advective terms compete with the linear dissipative terms and the outcome of this competition as the asymptotic behavior of the solution is determined by the external forcing term. For small values of the forcing, linearity dominates and the solution is dissipative. For large values of the forcing, the nonlinearity dominates and the solution blows up. In an intermediate range of the forcing, the system behaves chaotically. This behavior makes the Lorenz-96 model a popular testbed for new ideas in atmospheric sciences \cite{LorenzEmanuel98,Boffetta02,Ott04,Pazo08, Karimi10, Majda17}. Remarkably, the chaotic behavior of the solution defined as the positivity of the top Lyapunov exponent has only recently been proven \cite{Bedrossian20}. 
 
 \subsubsection{Simulation of the Lorenz model}
 
-We integrate \eqref{eq:model} for $j=1,\dots,40$, using a 4th order Runge-Kutta scheme. The parameters are chosen following \cite{LorenzEmanuel98} as $F=8$, $dt = 0.05$. Comparing the error growth timescale in \eqref{eq:model} with operational numerical weather prediction systems, one time step is considered in \cite{LorenzEmanuel98} to correspond to about 6 hrs. 
+We integrate \eqref{eq:model} for $j=1,\dots,40$, using a 4th order Runge-Kutta scheme. The parameters are chosen following \cite{LorenzEmanuel98} as $F(t)=8$, $dt = 0.05$. Comparing the error growth timescale in \eqref{eq:model} with operational numerical weather prediction systems, one time step is considered in \cite{LorenzEmanuel98} to correspond to about 6 hrs. 
 
 We choose random initial data from an approximately Gaussian distribution with mean $F/4$ and standard deviation $F/2$. To remove transient effects, we integrate the model forward for 90 days, that is, for $360$ time steps, and use the data at the last time step as initial data for our data assimilation experiments.
 
-We refer to a 5-year evolution of the Lorenz system as {\it nature}. The nature is the reference against which all forecasts are compared. 
+We refer to a 5-year evolution of the Lorenz system with constant forcing as {\it Nature}. Nature is the reference against which all forecasts are compared. 
 
 \subsection{Forecasts}
-There are various sources of error in weather forecasts [citation]. In this work, we focus on forcing bias, random noise, and spatial bias which is a constant error term pushing the solution away from nature and depends on spatial location. While the observational error is an important source of error, it is not relevant to the current work and did not impact our results qualitatively.
+Forecast accuracy in chaotic systems are limited not only by chaos (rapid divergence of nearby initial conditions), but also by the error in the underlying model \cite{Orrell01}. This model error is in general state-dependent. Statistical methods can be applied to mitigate the impact of model error on forecasts.
+
+We introduce biases to the Lorenz-96 system by hand to simulate the impact of model error on forecasts. Each forecast is made with a biased model. The bias is modeled as a modification of the external forcing. We consider the following options
+\begin{itemize}
+\item Constant bias: 
+\end{itemize}
+
+In this work, we focus on forcing bias, random noise, and spatial bias which is a constant error term pushing the solution away from nature and depends on spatial location. While the observational error is an important source of error, it is not relevant to the current work and did not impact our results qualitatively.
 
 A forecast is performed every day (every 4 time steps in the Lorenz system) starting from perfect initial data given by the nature run. The forecast length is 5 days. The forecast is made with a model that has a simulated and controlled source of error. We consider three models with bias and one model with noise. In Bias, we have a constant shift in the forcing term. In GridBias we add a random but constant vector to the solution. In TimeBias, we modify the forcing term in a time-dependent manner. In Noise, we add random noise to the solution during the time evolution.
 
@@ -186,8 +193,9 @@ e_n &= y_n^o - y_n^f, \\
 \bibitem{Boffetta02} Boffetta, G., Cencini, M., Falcioni, M. and Vulpiani, A., 2002. Predictability: a way to characterize complexity. {\em Physics Reports}, 356(6), pp.367-474.
 \bibitem{Ott04} Ott, E., Hunt, B.R., Szunyogh, I., Zimin, A.V., Kostelich, E.J., Corazza, M., Kalnay, E., Patil, D.J. and Yorke, J.A., 2004. A local ensemble Kalman filter for atmospheric data assimilation. {\em Tellus A: Dynamic Meteorology and Oceanography}, 56(5), pp.415-428.
 \bibitem{Pazo08} Paz\'o, D., Szendro, I.G., L\'opez, J.M. and Rodríguez, M.A., 2008. Structure of characteristic Lyapunov vectors in spatiotemporal chaos. {\em Physical Review E}, 78(1), p.016209.
-\bibitem{Karimi10} Karimi, A. and Paul, M.R., 2010. Extensive chaos in the Lorenz-96 model. {\em Chaos: An interdisciplinary journal of nonlinear science}, 20(4), p.043105.
+\bibitem{Karimi10} Karimi, A. and Paul, M.R., 2010. Extensive chaos in the Lorenz-96 model. {\em Chaos: An Interdisciplinary Journal of Nonlinear Science}, 20(4), p.043105.
 \bibitem{Majda17} Majda, A.J. and Qi, D., 2017. Effective control of complex turbulent dynamical systems through statistical functionals. {\em Proceedings of the National Academy of Sciences}, 114(22), pp.5571-5576.
 \bibitem{Bedrossian20} Bedrossian, J., Blumenthal, A. and Punshon-Smith, S., 2020. A regularity method for lower bounds on the Lyapunov exponent for stochastic differential equations. arXiv preprint arXiv:2007.15827.
+\bibitem{Orrell01} Orrell, D., Smith, L., Barkmeijer, J. and Palmer, T.N., 2001. Model error in weather forecasting. {\em Nonlinear Processes in Geophysics}, 8(6), pp.357-371.
 \end{thebibliography}
 \end{document}
