@@ -8,4 +8,4 @@ Bias can be constant or stochastic. It can vary in space across the grid with a 
 
 Statistics are collected for a 5-year nature run and compared to both MOS and AR forecasts. Forecast quality significantly depends on the type of bias. AR is most accurate for time-varying biases, which is the most realistic scenario.
 
-Fore more information on usage, see the [online documentation](https://anilzen.github.io/adaptive_kalman/). 
+Fore more information on usage, see the [online documentation](https://anilzen.github.io/adaptive_regression/). 
