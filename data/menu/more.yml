@@ -1,0 +1,13 @@
+---
+more:
+  - name: Blog
+    ref: "/blog"
+    icon: "gdoc_bookmark"
+  # - name: Releases
+  #   ref: "https://github.com/thegeeklab/hugo-geekdoc/releases"
+  #   external: true
+  #   icon: "download"
+  - name: "View Source"
+    ref: "https://github.com/anilzen/adaptive_regression/"
+    external: true
+    icon: "gdoc_github"
