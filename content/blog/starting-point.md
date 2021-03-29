@@ -6,4 +6,4 @@ date: 2021-03-21
 ---
 
 
-This is how it started
+I took a class by Eugenia on data assimilation, and this topic was discussed.
