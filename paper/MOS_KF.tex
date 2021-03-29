@@ -57,7 +57,7 @@ We choose random initial data from an approximately Gaussian distribution with m
 We refer to a 5-year evolution of the Lorenz system with constant forcing as {\it Nature}. Nature is the reference against which all forecasts are compared. 
 
 \subsection{Forecasts}
-Forecast accuracy in chaotic systems are limited not only by chaos (rapid divergence of nearby initial conditions), but also by the error in the underlying model \cite{Orrell01}. This model error is in general state-dependent. Statistical methods can be applied to mitigate the impact of model error on forecasts.
+Forecast accuracy in chaotic systems are limited not only by chaos (rapid divergence of nearby initial conditions), but also by the error in the underlying model \cite{Orrell01}. This model error is in general state-dependent. 
 
 We introduce biases to the Lorenz-96 system by hand to simulate the impact of model error on forecasts. Each forecast is made with a biased model. The bias is modeled as a modification of the external forcing. We consider the following options
 \begin{itemize}
@@ -69,6 +69,8 @@ In this work, we focus on forcing bias, random noise, and spatial bias which is 
 A forecast is performed every day (every 4 time steps in the Lorenz system) starting from perfect initial data given by the nature run. The forecast length is 5 days. The forecast is made with a model that has a simulated and controlled source of error. We consider three models with bias and one model with noise. In Bias, we have a constant shift in the forcing term. In GridBias we add a random but constant vector to the solution. In TimeBias, we modify the forcing term in a time-dependent manner. In Noise, we add random noise to the solution during the time evolution.
 
 \subsection{Model Output Statistics}
+Statistical methods can be applied to mitigate the impact of model error on forecasts.
+
 To focus on the differences between MOS and Adaptive Regression, we construct an Observing System Simulation Experiment (OSSE) where many of the surrounding technical difficulties encountered with real data are not present. In our OSSE, the nature run is given by the evolution of the Lorenz system \eqref{eq:model}. Observations are perfect and simply consist of the reading of the solution data. A model consists of a biased version of the Lorenz system. Forecasts have 5-day lead times and are produced with biased models. This setup allows us to demonstrate the interaction of various types of bias with statistical post-processing and construction of blended models. The regression coefficients are computed based on a 5 year training set (dependent data). The improvement of the MOS corrected forecasts is then measured on an independent 5 year run.
 
 \subsubsection{Formalism}
@@ -97,8 +99,8 @@ Here, $\mathbf{X}$ is the dependent sample predictor matrix consisting of the mo
 Plot dependent estimate of the error variance of the prediction! For independent data, the error variance is not that much larger. Show in plot.  We don't need cross-validation because we can simply produce a second set of 5 year data.
 
 
-\subsection{Adaptive Kalman Regression}
-In Adaptive Regression, we apply the Kalman Filter equations [Kalnay 2003] in a sequential formulation to the now time-dependent regression coefficients $\mathbf{b}^n = \mathbf{b}(t_n)$. The forecast at each time-step is made with time-dependent regression coefficients 
+\subsection{Adaptive Regression using Kalman Filters}
+In Adaptive Regression, we apply the Kalman Filter equations in a sequential formulation to the now time-dependent regression coefficients $\mathbf{b}^n = \mathbf{b}(t_n)$. The forecast at each time-step is made with time-dependent regression coefficients 
 \[ \hat{y}^n = b_{0}^n + b_{1}^n x^n  \]
 Kalman Filtering consists of two steps. In the first step, the coefficients $\mathbf{b}^n$ and their error covariance at time $t_n$ are forecast starting from the analysis at time $t_{n-1}$. In the second step, the Kalman weight is derived and the observations at time $t_n$ are used to obtain the analysis, which is more accurate than the forecast. In our case, the "forecast", or the first guess, is to keep the regression coefficients constant. The error covariance is as estimated in the previous time step, plus an additional error introduced by this "regression forecast model"
 \begin{align}

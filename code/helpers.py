@@ -5,8 +5,8 @@ import numpy as np
 
 class Lorenz:
     """
-    Implements Lorenz model.
-    Forcing is implemented as a function of time
+    Implements Lorenz-96 model.
+    Forcing is a user-provided function of time.
     """
 
     def __init__(self, N=40, dt=0.05, forcing=lambda t: 8.0*np.ones(40)):
@@ -66,21 +66,22 @@ class Lorenz:
 
 class Forecast(Lorenz):
 
-    def __init__(self, total_days, forecast_days, Truth, stations, pert_type, bias=0., noise=0.):
-        Lorenz.__init__(self, days=forecast_days, noise=noise, bias=bias, pert_type=pert_type)
-        if Truth.shape[0]-4*forecast_days-1 != 4*total_days:
-            print("Inconsistent Truth with total days.")
-        self.total_days = total_days
-        self.forecast_days = forecast_days
-        self.Truth = Truth
+    def __init__(self, Nature, stations, forecast_days, forcing):
+        self.Nature = Nature
         self.stations = stations
-        self.forecast = np.zeros((total_days+1, 4*forecast_days+1, self.N))
+        self.forecast_days = forecast_days
+        Lorenz.__init__(self, forcing=forcing)
+        # if Nature.shape[0]-4*forecast_days-1 != 4*total_days:
+        #     print("Nature lenght inconsistent with total days.")
+
+        self.nature_days = (Nature.shape[0]-1)//4
         self.hours = 6*np.arange(4*self.forecast_days+1)
+        self.forecast = np.zeros((self.nature_days+1, 4*forecast_days+1, self.N)) # for each day, store all time steps.
 
     # Make daily forecasts
     def make_forecast(self):
-        for i in range(self.total_days+1):  # A forecast for each day
-            self.solve(init_data=self.Truth[4*i])  # Perfect initial data (each day corresponds to 4 timesteps)
+        for i in range(self.nature_days):  # A forecast for each day
+            self.solve(days=self.forecast_days, init_data=self.Nature[4*i])  # Perfect initial data (each day corresponds to 4 timesteps)
             self.forecast[i] = self.sol.copy()  # Biased evolution
         self.station_forecast = self.forecast[:, :, self.stations]
 
@@ -92,7 +93,7 @@ class Forecast(Lorenz):
             predictor = self.station_forecast[:, :, j]
             predictand = np.zeros_like(predictor)
             for k in range(len(predictor)):
-                predictand[k] = self.Truth[4*k:4*k+nt, self.stations[j]]
+                predictand[k] = self.Nature[4*k:4*k+nt, self.stations[j]]
             for i in range(nt):
                 H = np.vstack((np.ones(len(predictor)), predictor[:, i])).T
                 self.b[j, i] = np.dot(np.dot(np.linalg.inv(np.dot(H.T, H)), H.T), predictand[:, i])
@@ -103,10 +104,10 @@ class Forecast(Lorenz):
     def error_norms(self):
         errors = np.zeros_like(self.station_forecast)
         mos_errors = np.zeros_like(errors)
-        for i in range(self.total_days+1):
-            StationTruth = self.Truth[4*i:4*i+4*self.forecast_days+1, self.stations]
-            errors[i] = self.station_forecast[i] - StationTruth
-            mos_errors[i] = self.mos_forecast[i] - StationTruth
+        for i in range(self.nature_days+1):
+            StationNature = self.Nature[4*i:4*i+4*self.forecast_days+1, self.stations]
+            errors[i] = self.station_forecast[i] - StationNature
+            mos_errors[i] = self.mos_forecast[i] - StationNature
         self.errors = np.linalg.norm(errors, axis=2).mean(axis=0)
         self.mos_errors = np.linalg.norm(mos_errors, axis=2).mean(axis=0)
 
@@ -136,7 +137,7 @@ def kalman(h, bak, Pak, yok, Qpar, rk):
     return ek, bakup, Pakup
 
 
-def adaptive_regression(Forecast, Truth):
+def adaptive_regression(Forecast, Nature):
     period, nt, nstat = Forecast.shape
     bak = np.zeros((period+1, nstat, nt, 2))
     bak[0] = regression(models[0][:101], Nature[:419, stations])
@@ -150,7 +151,7 @@ def adaptive_regression(Forecast, Truth):
         predor = StationForecast[:, :, j]
         predant = np.zeros_like(predor)
         for k in range(len(predor)):
-            predant[k] = Truth[4*k:4*k+nt, j]
+            predant[k] = Nature[4*k:4*k+nt, j]
         for i in range(nt):
             H = np.vstack((np.ones(len(predor)), predor[:, i])).T
             b[j, i] = np.dot(np.dot(np.linalg.inv(np.dot(H.T, H)), H.T), predant[:, i])
